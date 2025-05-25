@@ -7,6 +7,9 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import DashboardPage from './pages/DashboardPage';
 import React, { Suspense } from 'react';
+import Loader from './components/common/Loader/Loader';
+
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 
 const App: React.FC = () => {
 	return (
@@ -19,8 +22,14 @@ const App: React.FC = () => {
 							path='/settings'
 							element={
 								<Suspense
-									fallback={<div className='text-center py-10'>Loading...</div>}
-								></Suspense>
+									fallback={
+										<div className='h-screen w-full'>
+											<Loader size='lg' color='text-blue-500' />
+										</div>
+									}
+								>
+									<SettingsPage />
+								</Suspense>
 							}
 						/>
 					</Routes>
