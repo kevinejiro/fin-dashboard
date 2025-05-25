@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { ReactNode } from 'react';
-// import Sidebar from '../components/common/Sidebar/Sidebar';
-// import Navbar from '../components/common/Navbar/Navbar';
+import Sidebar from '../components/common/Sidebar/Sidebar';
+import Navbar from '../components/common/Navbar/Navbar';
 import { useAppDispatch } from '../redux/hooks';
 import { fetchUserProfile } from '../redux/features/userSlice';
 
@@ -16,9 +16,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 	}, [dispatch]);	
 	return (
 		<div className='flex h-screen w-screen bg-gray-100'>
-			{/* <Sidebar /> */}
+			<Sidebar />
 			<div className='flex-1 flex flex-col min-w-0'>
-				{/* <Navbar /> */}
+				<Navbar />
 				<main className='flex-1 p-4 md:p-8 overflow-auto w-full'>
 					{children}
 				</main>
