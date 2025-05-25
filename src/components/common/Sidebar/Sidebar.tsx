@@ -1,5 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {
+	NavLink,
+	// , useLocation
+} from 'react-router-dom';
 import Icon from '../icons';
 
 type IconType =
@@ -34,6 +37,9 @@ const navItems: NavItem[] = [
 ];
 
 const Sidebar: React.FC = () => {
+	// const location = useLocation();
+	// const isDashboard = location.pathname === '/';
+	// const isSettings = location.pathname === '/settings';
 	return (
 		<aside className='hidden md:flex flex-col h-screen w-64 bg-white border-r border-gray-200 py-6 px-4'>
 			{/* Logo */}
@@ -53,7 +59,9 @@ const Sidebar: React.FC = () => {
 						to={item.to}
 						className={({ isActive }) =>
 							`flex items-center px-4 py-3 rounded-lg transition-colors font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 ${
-								isActive ? 'bg-indigo-100 text-indigo-700 font-semibold fill-[#232323]' : ''
+								isActive
+									? 'bg-indigo-100 text-indigo-700 font-semibold fill-[#232323]'
+									: ''
 							}`
 						}
 						end={item.to === '/'}

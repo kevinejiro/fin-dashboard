@@ -43,7 +43,7 @@ const DashboardPage: React.FC = () => {
 		dispatch(fetchDashboardData());
 	}, [dispatch]);
 
-	const overallError = cardsError || transactionsError || dashboardDataError;
+	const overallError = cardsError && transactionsError && dashboardDataError;
 
 	if (overallError)
 		return (
