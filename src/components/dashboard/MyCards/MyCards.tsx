@@ -7,11 +7,31 @@ interface MyCardsProps {
 }
 
 const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
+	const handleSeeAllClick = () => {
+		console.log('See All Cards clicked');
+	};
+
+	if (!cards.length) {
+		return (
+			<div className='w-full p-0 rounded-2xl'>
+				<div className='flex justify-between items-center mb-6 px-2 pt-2'>
+					<h2 className='text-2xl font-semibold text-[#343C6A]'>My Cards</h2>
+				</div>
+				<div className='text-center text-gray-500 py-8'>
+					No cards available.
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className='w-full p-0 rounded-2xl'>
 			<div className='flex justify-between items-center mb-6 px-2 pt-2'>
 				<h2 className='text-2xl font-semibold text-[#343C6A]'>My Cards</h2>
-				<button className='text-[#343C6A] font-semibold text-xl hover:underline'>
+				<button
+					onClick={handleSeeAllClick}
+					className='text-[#343C6A] font-semibold text-xl hover:underline'
+				>
 					See All
 				</button>
 			</div>
@@ -32,7 +52,7 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 										</div>
 									</div>
 									<div>
-										<Icon type="chip"/>
+										<Icon type='chip' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-white/70 mb-2'>
@@ -49,7 +69,7 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 								</div>
 							</div>
 							{/* Blue border */}
-							<div className='h-1 bg-[#3B82F6] w-full' />
+							<div className=' h-[1px] bg-[#3A3B5A] w-full' />
 							{/* Bottom section */}
 							<div className='flex items-center justify-between px-6 py-4 bg-gradient-to-br from-[#5B5C6E] to-[#23243A] rounded-b-2xl'>
 								<span className='text-2xl font-bold tracking-widest text-white/90'>
@@ -88,7 +108,7 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 										</div>
 									</div>
 									<div>
-									<Icon type="chip2"/>
+										<Icon type='chip2' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-[#2D3A8C]/70 mb-2'>

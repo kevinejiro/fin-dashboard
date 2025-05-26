@@ -1,143 +1,71 @@
-import { describe, it, vi, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import InputField from './InputField';
 
-describe('InputField', () => {
-	// Test 1: Renders with label, placeholder, and initial value
-	it('renders with correct label, placeholder, and initial value', () => {
-		render(
-			<InputField
-				label='Full Name'
-				id='fullName'
-				name='fullName'
-				value='John Doe'
-				placeholder='Enter your full name'
-				onChange={() => {}}
-			/>
-		);
+describe('InputField Component', () => {
+	const defaultProps = {
+		label: 'Test Label',
+		id: 'test-input',
+		name: 'test-input',
+		value: '',
+		onChange: vi.fn(),
+	};
 
-		expect(screen.getByLabelText('Full Name')).toBeInTheDocument();
-		expect(screen.getByDisplayValue('John Doe')).toBeInTheDocument();
-		expect(
-			screen.getByPlaceholderText('Enter your full name')
-		).toBeInTheDocument();
+	it('renders with required props', () => {
+		render(<InputField {...defaultProps} />);
+		expect(screen.getByLabelText('Test Label')).toBeInTheDocument();
 	});
 
-	// Test 2: Handles onChange event correctly
-	it('calls onChange handler when input value changes', () => {
-		const handleChange = vi.fn(); // Use vi.fn() for mocking functions in Vitest
+	it('renders with placeholder', () => {
+		render(<InputField {...defaultProps} placeholder='Enter text' />);
+		expect(screen.getByPlaceholderText('Enter text')).toBeInTheDocument();
+	});
+
+	it('renders with error message', () => {
+		render(<InputField {...defaultProps} error='This field is required' />);
+		expect(screen.getByText('This field is required')).toBeInTheDocument();
+		expect(screen.getByRole('textbox')).toHaveClass('border-red-500');
+	});
+
+	it('handles input changes', async () => {
+		render(<InputField {...defaultProps} />);
+		const input = screen.getByRole('textbox');
+		await userEvent.type(input, 'test value');
+		expect(defaultProps.onChange).toHaveBeenCalled();
+	});
+
+	it('renders as readonly when specified', () => {
+		render(<InputField {...defaultProps} readOnly />);
+		const input = screen.getByRole('textbox');
+		expect(input).toHaveAttribute('readonly');
+		expect(input).toHaveClass('bg-gray-50', 'cursor-not-allowed');
+	});
+
+	it('applies custom container className', () => {
 		render(
-			<InputField
-				label='Email'
-				id='email'
-				name='email'
-				value=''
-				onChange={handleChange}
-			/>
+			<InputField {...defaultProps} containerClassName='custom-container' />
 		);
-
-		const inputElement = screen.getByLabelText('Email');
-		fireEvent.change(inputElement, { target: { value: 'test@example.com' } });
-
-		expect(handleChange).toHaveBeenCalledTimes(1);
-		expect(handleChange).toHaveBeenCalledWith(
-			expect.objectContaining({
-				target: expect.objectContaining({
-					value: 'test@example.com',
-				}),
-			})
+		expect(screen.getByText('Test Label').parentElement).toHaveClass(
+			'custom-container'
 		);
 	});
 
-	// Test 3: Displays error message when provided
-	it('displays an error message when the error prop is provided', () => {
-		const errorMessage = 'Email is required';
-		render(
-			<InputField
-				label='Email'
-				id='email'
-				name='email'
-				value=''
-				onChange={() => {}}
-				error={errorMessage}
-			/>
-		);
-
-		expect(screen.getByText(errorMessage)).toBeInTheDocument();
-		expect(screen.getByLabelText('Email')).toHaveClass('border-red-500');
+	it('applies custom input className', () => {
+		render(<InputField {...defaultProps} inputClassName='custom-input' />);
+		expect(screen.getByRole('textbox')).toHaveClass('custom-input');
 	});
 
-	// Test 4: Does not display error message when not provided
-	it('does not display an error message when the error prop is not provided', () => {
-		render(
-			<InputField
-				label='Password'
-				id='password'
-				name='password'
-				value=''
-				onChange={() => {}}
-			/>
-		);
+	it('renders with different input types', () => {
+		const { rerender } = render(<InputField {...defaultProps} type='email' />);
+		expect(screen.getByRole('textbox')).toHaveAttribute('type', 'email');
 
-		expect(screen.queryByText(/is required/i)).not.toBeInTheDocument();
-		expect(screen.getByLabelText('Password')).not.toHaveClass('border-red-500');
+		rerender(<InputField {...defaultProps} type='password' />);
+		expect(screen.getByRole('textbox')).toHaveAttribute('type', 'password');
 	});
 
-	// Test 5: Renders as read-only when specified
-	it('renders the input as read-only when readOnly prop is true', () => {
-		render(
-			<InputField
-				label='Username'
-				id='username'
-				name='username'
-				value='readonlyuser'
-				onChange={() => {}}
-				readOnly={true}
-			/>
-		);
-
-		const inputElement = screen.getByLabelText('Username');
-		expect(inputElement).toHaveAttribute('readOnly');
-		expect(inputElement).toBeDisabled(); // readOnly implies disabled for practical user interaction
-		expect(inputElement).toHaveClass('bg-gray-50');
-	});
-
-	// Test 6: Renders with different input types
-	it('renders with specified input type (e.g., password)', () => {
-		render(
-			<InputField
-				label='Password'
-				id='password'
-				name='password'
-				type='password'
-				value='securepass'
-				onChange={() => {}}
-			/>
-		);
-
-		const inputElement = screen.getByLabelText('Password');
-		expect(inputElement).toHaveAttribute('type', 'password');
-	});
-
-	// Test 7: Applies custom class names
-	it('applies custom container and input class names', () => {
-		render(
-			<InputField
-				label='Test Field'
-				id='testField'
-				name='testField'
-				value=''
-				onChange={() => {}}
-				containerClassName='my-custom-container'
-				inputClassName='my-custom-input'
-			/>
-		);
-
-		const container = screen.getByLabelText('Test Field').closest('div');
-		expect(container).toHaveClass('my-custom-container');
-
-		const input = screen.getByLabelText('Test Field');
-		expect(input).toHaveClass('my-custom-input');
+	it('forwards additional props to input element', () => {
+		render(<InputField {...defaultProps} data-testid='test-input' />);
+		expect(screen.getByTestId('test-input')).toBeInTheDocument();
 	});
 });

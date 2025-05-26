@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	NavLink,
-	// , useLocation
 } from 'react-router-dom';
 import Icon from '../icons';
 
@@ -30,16 +29,13 @@ const navItems: NavItem[] = [
 		icon: 'home',
 	},
 	{
-		name: 'Setting',
+		name: 'Settings',
 		to: '/settings',
 		icon: 'settings',
 	},
 ];
 
 const Sidebar: React.FC = () => {
-	// const location = useLocation();
-	// const isDashboard = location.pathname === '/';
-	// const isSettings = location.pathname === '/settings';
 	return (
 		<aside className='hidden md:flex flex-col h-screen w-64 bg-white border-r border-gray-200 py-6 px-4'>
 			{/* Logo */}
@@ -58,19 +54,22 @@ const Sidebar: React.FC = () => {
 						key={item.name}
 						to={item.to}
 						className={({ isActive }) =>
-							`flex items-center px-4 py-3 rounded-lg transition-colors font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 ${
+							`flex items-center px-4 py-3 rounded-lg transition-colors font-medium hover:bg-indigo-50 cursor-pointer ${
 								isActive
-									? 'bg-indigo-100 text-indigo-700 font-semibold fill-[#232323]'
-									: ''
+									? ' bg-indigo-50 text-[#232323] font-semibold'
+									: 'text-[#B1B1B1]'
 							}`
 						}
 						end={item.to === '/'}
 					>
-						<span className='mr-4'>
-							<Icon type={item.icon} />
-						</span>
-
-						{item.name}
+						{({ isActive }) => (
+							<>
+								<span className='mr-4'>
+									<Icon type={item.icon} active={isActive} />
+								</span>
+								{item.name}
+							</>
+						)}
 					</NavLink>
 				))}
 			</nav>

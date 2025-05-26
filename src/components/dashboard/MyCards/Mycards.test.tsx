@@ -1,46 +1,84 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import MyCards from './MyCards';
-import type { CardProps } from '../../../types/data';
+// import type { CardProps } from '../../../types/data';
 import { describe, it, expect, vi } from 'vitest';
 
-const mockCards: CardProps[] = [
-	{
-		id: '1',
-		balance: 5756,
-		cardholder: 'Eddy Cosuma',
-		validThru: '12/22',
-		lastFour: '1234',
-	},
-	{
-		id: '2',
-		balance: 3200,
-		cardholder: 'Jane Doe',
-		validThru: '08/24',
-		lastFour: '5678',
-	},
-];
+// Mock the Icon component
+vi.mock('../../common/icons', () => ({
+	default: ({ type }: { type: string }) => <div data-testid={`icon-${type}`} />,
+}));
 
-describe('MyCards', () => {
-	it('renders the header and "See All" button', () => {
-		render(<MyCards cards={[]} />);
+describe('MyCards Component', () => {
+	const mockCards = [
+		{
+			id: '1',
+			balance: 5756,
+			cardholder: 'Eddy Cosuma',
+			validThru: '12/22',
+			lastFour: '1234',
+		},
+		{
+			id: '2',
+			balance: 3200,
+			cardholder: 'Jane Doe',
+			validThru: '08/24',
+			lastFour: '5678',
+		},
+	];
+
+	it('renders title and see all button', () => {
+		render(<MyCards cards={mockCards} />);
 		expect(screen.getByText('My Cards')).toBeInTheDocument();
-		expect(screen.getByRole('button', { name: 'See All' })).toBeInTheDocument();
+		expect(screen.getByText('See All')).toBeInTheDocument();
+	});
+
+	it('renders all cards', () => {
+		render(<MyCards cards={mockCards} />);
+		expect(screen.getByText('Eddy Cosuma')).toBeInTheDocument();
+		expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+	});
+
+	it('renders card balances with correct formatting', () => {
+		render(<MyCards cards={mockCards} />);
+		expect(screen.getByText('$5,756')).toBeInTheDocument();
+		expect(screen.getByText('$3,200')).toBeInTheDocument();
 	});
 
 	it('renders card details correctly', () => {
 		render(<MyCards cards={mockCards} />);
-
-		// Check for the first card
 		expect(screen.getByText('Eddy Cosuma')).toBeInTheDocument();
-		expect(screen.getByText('$5,756')).toBeInTheDocument();
-		expect(screen.getByText('**** **** **** 1234')).toBeInTheDocument();
-		expect(screen.getByText('Valid Thru: 12/22')).toBeInTheDocument();
-
-		// Check for the second card
 		expect(screen.getByText('Jane Doe')).toBeInTheDocument();
-		expect(screen.getByText('$3,200')).toBeInTheDocument();
+		expect(screen.getByText('12/22')).toBeInTheDocument();
+		expect(screen.getByText('08/24')).toBeInTheDocument();
+		expect(screen.getByText('**** **** **** 1234')).toBeInTheDocument();
 		expect(screen.getByText('**** **** **** 5678')).toBeInTheDocument();
-		expect(screen.getByText('Valid Thru: 08/24')).toBeInTheDocument();
+	});
+
+	it('renders chip icons', () => {
+		render(<MyCards cards={mockCards} />);
+		expect(screen.getByTestId('icon-chip')).toBeInTheDocument();
+		expect(screen.getByTestId('icon-chip2')).toBeInTheDocument();
+	});
+
+	it('has correct card styles for first card', () => {
+		render(<MyCards cards={mockCards} />);
+		const firstCard = screen.getByText('Eddy Cosuma').closest('span');
+		expect(firstCard).toHaveClass(
+			'text-white'
+		);
+	});
+
+	it('has correct card styles for second card', () => {
+		render(<MyCards cards={mockCards} />);
+		const secondCard = screen.getByText('Jane Doe').closest('span');
+		expect(secondCard).toHaveClass('text-[#2D3A8C]');
+	});
+
+	it('renders card labels', () => {
+		render(<MyCards cards={mockCards} />);
+		expect(screen.getAllByText('Balance')).toHaveLength(2);
+		expect(screen.getAllByText('CARD HOLDER')).toHaveLength(2);
+		expect(screen.getAllByText('VALID THRU')).toHaveLength(2);
 	});
 
 	it('displays "No cards available" message when no cards are provided', () => {
