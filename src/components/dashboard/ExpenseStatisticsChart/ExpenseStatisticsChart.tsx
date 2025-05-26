@@ -19,15 +19,14 @@ const backgroundColors = [
 const ExpenseStatisticsChart: React.FC<ExpenseStatisticsChartProps> = ({
 	data,
 }) => {
-	// Define a set of consistent colors for pie chart segments
 	const chartData = useMemo(() => {
 		return {
 			labels: data.map((item) => item.name),
 			datasets: [
 				{
 					data: data.map((item) => item.value),
-					backgroundColor: backgroundColors.slice(0, data.length), // Use colors based on data length
-					borderColor: '#ffffff', // White border between segments
+					backgroundColor: backgroundColors.slice(0, data.length), 
+					borderColor: '#ffffff', 
 					borderWidth: 2,
 				},
 			],
@@ -41,11 +40,11 @@ const ExpenseStatisticsChart: React.FC<ExpenseStatisticsChartProps> = ({
 				...commonChartOptions.plugins,
 				legend: {
 					...commonChartOptions.plugins.legend,
-					position: 'top' as const, // Pie chart legend often on the right
+					position: 'top' as const,
 					align: 'end' as const,
 					labels: {
 						...commonChartOptions.plugins.legend.labels,
-						usePointStyle: true, // Show a colored dot for each legend item
+						usePointStyle: true,
 						boxWidth: 8,
 						padding: 16,
 					},
@@ -59,7 +58,7 @@ const ExpenseStatisticsChart: React.FC<ExpenseStatisticsChartProps> = ({
 								label += ': ';
 							}
 							if (context.parsed !== null) {
-								label += context.parsed + '%'; // Display as percentage
+								label += context.parsed + '%';
 							}
 							return label;
 						},

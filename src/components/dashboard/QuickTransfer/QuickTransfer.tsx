@@ -44,7 +44,7 @@ const QuickTransfer: React.FC<QuickTransferProps> = ({ contacts }) => {
         <p className="text-gray-500 mb-4">No quick transfer contacts available.</p>
       ) : (
         <>
-          <div className="flex space-x-3 overflow-x-auto pb-3 -mb-3"> {/* Added overflow for scroll */}
+          <div className="flex space-x-3 overflow-x-auto pb-3 -mb-3">
             {contacts.map((contact) => (
               <div
                 key={contact.id}
@@ -53,7 +53,7 @@ const QuickTransfer: React.FC<QuickTransferProps> = ({ contacts }) => {
                 onClick={() => setSelectedContactId(contact.id)}
               >
                 <img
-                  src={contact.avatar || '/assets/images/avatar-default.png'} // Fallback avatar
+                  src={contact.avatar || '/assets/images/avatar-default.png'}
                   alt={contact.name}
                   className="w-16 h-16 rounded-full object-cover mx-auto mb-2"
                 />
