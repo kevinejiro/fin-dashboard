@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Transaction } from '../../../types/data'; // Adjust path
+import type { Transaction } from '../../../types/data';
 import Card from '../../common/Card/Card';
 import Icons from '../../common/icons';
 
@@ -11,7 +11,10 @@ const RecentTransactions: React.FC<RecentTransactionsProps> = ({
 	transactions,
 }) => {
 	return (
-		<Card title='Recent Transactions' className='flex flex-col h-[16rem] min-h-[16rem]'>
+		<Card
+			title='Recent Transactions'
+			className='flex flex-col h-[16rem] min-h-[16rem]'
+		>
 			<div className='flex-1 h-[12rem] overflow-y-auto'>
 				{transactions.length === 0 ? (
 					<p className='text-gray-500'>No recent transactions.</p>
@@ -24,7 +27,7 @@ const RecentTransactions: React.FC<RecentTransactionsProps> = ({
 							>
 								<div className='flex items-center space-x-3'>
 									<div className='flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center'>
-                    <Icons type={transaction.icon}/>
+										<Icons type={transaction.icon} />
 									</div>
 									<div>
 										<p className='text-sm font-medium text-gray-900'>
@@ -39,8 +42,14 @@ const RecentTransactions: React.FC<RecentTransactionsProps> = ({
 									}`}
 								>
 									{transaction.amount < 0
-										? `-$${Math.abs(transaction.amount).toLocaleString()}`
-										: `$${transaction.amount.toLocaleString()}`}
+										? `-$${Math.abs(transaction.amount).toLocaleString(
+												undefined,
+												{ minimumFractionDigits: 2, maximumFractionDigits: 2 }
+										  )}`
+										: `$${transaction.amount.toLocaleString(undefined, {
+												minimumFractionDigits: 2,
+												maximumFractionDigits: 2,
+										  })}`}
 								</div>
 							</li>
 						))}
