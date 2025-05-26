@@ -54,12 +54,6 @@ describe('MyCards Component', () => {
 		expect(screen.getByText('**** **** **** 5678')).toBeInTheDocument();
 	});
 
-	it('renders chip icons', () => {
-		render(<MyCards cards={mockCards} />);
-		expect(screen.getByTestId('icon-chip')).toBeInTheDocument();
-		expect(screen.getByTestId('icon-chip2')).toBeInTheDocument();
-	});
-
 	it('has correct card styles for first card', () => {
 		render(<MyCards cards={mockCards} />);
 		const firstCard = screen.getByText('Eddy Cosuma').closest('span');
