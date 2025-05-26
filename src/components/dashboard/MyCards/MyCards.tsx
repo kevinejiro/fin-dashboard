@@ -1,6 +1,5 @@
 import React from 'react';
 import type { CardProps } from '../../../types/data';
-import Icon from '../../common/icons';
 
 interface MyCardsProps {
 	cards: CardProps[];
@@ -51,8 +50,8 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 											${card.balance.toLocaleString()}
 										</div>
 									</div>
-									<div>
-										<Icon type='chip' />
+									<div className='w-[2.5rem]'>
+										<img src='/public/images/chip.png' alt='chip' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-white/70 mb-2'>
@@ -68,7 +67,6 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 									</span>
 								</div>
 							</div>
-							{/* Blue border */}
 							<div className=' h-[1px] bg-[#3A3B5A] w-full' />
 							{/* Bottom section */}
 							<div className='flex items-center justify-between px-6 py-4 bg-gradient-to-br from-[#5B5C6E] to-[#23243A] rounded-b-2xl'>
@@ -107,8 +105,8 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 											${card.balance.toLocaleString()}
 										</div>
 									</div>
-									<div>
-										<Icon type='chip2' />
+									<div className='w-[2.5rem]'>
+										<img src='/public/images/chip2.png' alt='card chip' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-[#2D3A8C]/70 mb-2'>

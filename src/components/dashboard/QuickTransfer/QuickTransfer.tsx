@@ -53,7 +53,7 @@ const QuickTransfer: React.FC<QuickTransferProps> = ({ contacts }) => {
                 onClick={() => setSelectedContactId(contact.id)}
               >
                 <img
-                  src={contact.avatar || '/assets/images/avatar-default.png'}
+                  src={contact.avatar}
                   alt={contact.name}
                   className="w-16 h-16 rounded-full object-cover mx-auto mb-2"
                 />
