@@ -51,7 +51,7 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 										</div>
 									</div>
 									<div className='w-[2.5rem]'>
-										<img src='/public/images/chip.png' alt='chip' />
+										<img src='/images/Chip.png' alt='chip' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-white/70 mb-2'>
@@ -106,7 +106,7 @@ const MyCards: React.FC<MyCardsProps> = ({ cards }) => {
 										</div>
 									</div>
 									<div className='w-[2.5rem]'>
-										<img src='/public/images/chip2.png' alt='card chip' />
+										<img src='/images/Chip2.png' alt='card chip' />
 									</div>
 								</div>
 								<div className='flex justify-between items-center text-xs text-[#2D3A8C]/70 mb-2'>
